@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rick and Morty Explorer</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#0d0d16] text-white font-body selection:bg-[#c0fa72] selection:text-black min-h-screen flex flex-col overflow-x-hidden">
+
+    <!-- HEADER -->
+    <header class="bg-[#0d0d16]/80 backdrop-blur-2xl fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full border-2 border-[#c0fa72]/30 overflow-hidden">
+                <img alt="Rick Sanchez" class="w-full h-full object-cover" 
+                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHwRduxDp6F7f-cNCejtH5b9vxp072DyWyEiyKsAXQ4hs3idXWC_ssfCrqYDHayMqhZ1Nvn0ntGckwUQbofqc3xN8CZ-WE7rt3Jh5XMaBmg55Sovl-v8vVJfL7RDUZ4Z6tj1MOWYOXMHGs0N8m6V4EOdHmeAi7rqAZMl3IZ4YHm2f3Jp7-tMbRtm9rRlRQTMQ80qOkN045aPETM6RWf2WANbMBxEgojPBk_OEPYtS4mWmtcfR76hnW02l03J0CsW4-av1SZBkQ5b8" />
+            </div>
+            <h1 class="text-2xl font-black text-[#c0fa72] drop-shadow-[0_0_10px_rgba(192,250,114,0.4)] font-headline tracking-wider uppercase">
+                PEPINILLO RICK
+            </h1>
+        </div>
+        
+        <div class="hidden md:flex gap-8 items-center">
+            <nav class="flex gap-6">
+                <a onclick="buscarPersonajes()" class="font-headline text-sm tracking-widest text-[#c0fa72] hover:text-white cursor-pointer">PERSONAJES</a>
+                <a onclick="buscarEpisodios()" class="font-headline text-sm tracking-widest text-slate-400 hover:text-[#c0fa72] cursor-pointer">EPISODIOS</a>
+                <a onclick="buscarLocaciones()" class="font-headline text-sm tracking-widest text-slate-400 hover:text-[#c0fa72] cursor-pointer">LOCACIONES</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-32 pb-24 px-6 max-w-7xl mx-auto w-full relative">
+        <section class="mb-16 text-center">
+            <h2 class="text-5xl md:text-7xl font-headline font-bold mb-6 text-white tracking-tighter">
+                EXPLORANDO EL MULTIVERSO
+            </h2>
+            <p class="text-xl md:text-2xl text-[#c0fa72]/80 max-w-2xl mx-auto">
+                "¡Wubba Lubba Dub Dub!"
+        </section>
+
+        <!-- BUSCADOR -->
+        <section class="max-w-3xl mx-auto mb-20 relative">
+            <div class="glass-panel p-2 rounded-full border flex items-center shadow-2xl border-[#a1d5e3]/30 bg-[#0d0d16]">
+                <div class="pl-6 text-[#c0fa72]/60">
+                    <span class="material-symbols-outlined text-2xl">search</span>
+                </div>
+                <input 
+                    id="searchInput"
+                    class="w-full bg-transparent border-none focus:ring-0 text-white placeholder:text-gray-500 py-4 px-4 text-lg outline-none"
+                    placeholder="Busca un personaje (ej: Rick, Morty, Summer)..." 
+                    type="text" 
+                    onkeypress="if(event.key === 'Enter') buscarPersonajes()" />
+                
+                <button onclick="buscarPersonajes()" 
+                        class="bg-gradient-to-br from-[#c0fa72] to-[#9be35c] text-black font-headline font-bold px-10 py-4 rounded-full flex items-center gap-2 hover:shadow-[0_0_20px_rgba(192,250,114,0.5)] transition-all active:scale-95">
+                    <span class="material-symbols-outlined">portal</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- RESULTADOS -->
+        <section id="results" class="min-h-[500px] w-full">
+            <!-- Aquí JS insertará las tarjetas -->
+        </section>
+    </main>
+
+    <footer class="bg-[#0d0d16] w-full py-12 px-8 flex flex-col justify-between items-center opacity-75 border-t border-[#c0fa72]/10">
+        <p class="text-xl font-medium text-slate-400">
+            Hecho por JUAN CAMILO BUITRAGO / Daniel Stiven Cano • 2026
+        </p>
+        <p class="text-sm text-slate-600 mt-2">
+            Datos de <a href="https://rickandmortyapi.com" target="_blank" class="text-[#c0fa72] hover:underline">rickandmortyapi.com</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript al final del body -->
+    <script src="js/app.js"></script>
+</body>
+</html>
