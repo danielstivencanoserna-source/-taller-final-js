@@ -40,11 +40,11 @@ async function fetchAPI(endpoint) {
     try {
         mostrarCargando();
         const response = await fetch(`https://rickandmortyapi.com/api/${endpoint}`);
-        
+
         if (!response.ok) {
             throw new Error(`Error ${response.status}`);
         }
-        
+
         const data = await response.json();
         return data;
     } catch (error) {
@@ -78,34 +78,28 @@ function mostrarResultadosPersonajes(personajes) {
     }
 
     const html = personajes.map(personaje => `
-        <div class="bg-[#1a1a2e] border border-[#c0fa72]/20 rounded-3xl overflow-hidden card hover:border-[#c0fa72]/60 transition-all group">
-            <div class="relative">
-                <img src="${personaje.image}" 
-                     alt="${personaje.name}" 
-                     class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
-                <div class="absolute top-3 right-3 px-3 py-1 text-xs font-bold rounded-full 
-                            ${personaje.status === 'Alive' ? 'bg-green-500' : personaje.status === 'Dead' ? 'bg-red-500' : 'bg-gray-500'}">
-                    ${personaje.status}
-                </div>
-            </div>
+       <div onclick="mostrarModalPersonaje(${personaje.id})" 
+         class="bg-[#1a1a2e] border border-[#c0fa72]/20 rounded-3xl overflow-hidden cursor-pointer hover:border-[#c0fa72]/60 hover:-translate-y-3 transition-all duration-300 group shadow-2xl">
+        
+        <div class="relative">
+            <img src="${personaje.image}" 
+                 alt="${personaje.name}" 
+                 class="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-300">
             
-            <div class="p-5">
-                <h3 class="text-xl font-bold text-white mb-1">${personaje.name}</h3>
-                <p class="text-[#c0fa72]/80 text-sm">${personaje.species} • ${personaje.gender}</p>
-                
-                <div class="mt-4 grid grid-cols-2 gap-3 text-xs">
-                    <div>
-                        <span class="block text-gray-400">Origen</span>
-                        <span class="text-white">${personaje.origin.name}</span>
-                    </div>
-                    <div>
-                        <span class="block text-gray-400">Ubicación</span>
-                        <span class="text-white">${personaje.location.name}</span>
-                    </div>
-                </div>
+            <div class="absolute top-4 right-4 px-4 py-1 text-sm font-bold rounded-full 
+                        ${personaje.status === 'Alive' ? 'bg-green-500 text-white' : personaje.status === 'Dead' ? 'bg-red-500 text-white' : 'bg-gray-500 text-white'}">
+                ${personaje.status}
             </div>
         </div>
-    `).join('');
+        
+        <!-- Información -->
+        <div class="p-6">
+            <h3 class="text-2xl font-bold text-white mb-2 line-clamp-2">${personaje.name}</h3>
+            <p class="text-[#c0fa72] text-lg">${personaje.species}</p>
+            <p class="text-gray-400 text-sm mt-1">${personaje.gender}</p>
+        </div>
+    </div>
+`).join('');
 
     resultsContainer.innerHTML = html;
 }
@@ -173,6 +167,6 @@ function mostrarResultadosLocaciones(locaciones) {
 window.onload = () => {
     // Opcional: cargar personajes al inicio
     // buscarPersonajes();
-    
+
     console.log('%c🚀 Rick and Morty Explorer cargado correctamente', 'color: #c0fa72; font-weight: bold');
 };
