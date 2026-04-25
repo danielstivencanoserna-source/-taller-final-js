@@ -87,6 +87,23 @@
         </section>
     </main>
 
+    <!-- MODAL PERSONAJE -->
+<div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+    onclick="cerrarModal(event)">
+    <div class="relative bg-[#1a1a2e] border border-[#c0fa72]/30 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-[0_0_60px_rgba(192,250,114,0.15)]"
+        id="modalContent">
+
+        <!-- Botón cerrar -->
+        <button onclick="cerrarModalBtn()"
+            class="absolute top-4 right-4 z-10 bg-black/50 hover:bg-[#c0fa72] hover:text-black text-white rounded-full w-10 h-10 flex items-center justify-center transition-all">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+
+        <!-- Contenido dinámico -->
+        <div id="modalBody"></div>
+    </div>
+</div>
+
     <footer
         class="bg-[#0d0d16] w-full py-12 px-8 flex flex-col justify-between items-center opacity-75 border-t border-[#c0fa72]/10">
         <p class="text-xl font-medium text-slate-400">

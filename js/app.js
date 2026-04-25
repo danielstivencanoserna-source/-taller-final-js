@@ -162,6 +162,118 @@ function mostrarResultadosLocaciones(locaciones) {
     resultsContainer.innerHTML = html;
 }
 
+// ==================== MODAL PERSONAJE ====================
+async function mostrarModalPersonaje(id) {
+    const modal = document.getElementById('modal');
+    const modalBody = document.getElementById('modalBody');
+
+    // Mostrar modal con spinner
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+
+    modalBody.innerHTML = `
+        <div class="flex items-center justify-center py-20">
+            <div class="w-16 h-16 border-4 border-[#c0fa72] border-t-transparent rounded-full animate-spin"></div>
+        </div>
+    `;
+
+    try {
+        const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+        const p = await res.json();
+
+        // Traer nombre del primer y último episodio
+        const epIds = p.episode.map(e => e.split('/').pop());
+        const primerEp = await fetch(p.episode[0]).then(r => r.json());
+        const ultimoEp = p.episode.length > 1
+            ? await fetch(p.episode[p.episode.length - 1]).then(r => r.json())
+            : primerEp;
+
+        const statusColor = p.status === 'Alive'
+            ? 'bg-green-500' : p.status === 'Dead'
+            ? 'bg-red-500' : 'bg-gray-500';
+
+        modalBody.innerHTML = `
+            <!-- Imagen header -->
+            <div class="relative">
+                <img src="${p.image}" alt="${p.name}"
+                    class="w-full h-72 object-cover object-top rounded-t-3xl">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a2e] via-transparent to-transparent rounded-t-3xl"></div>
+                <div class="absolute bottom-4 left-6">
+                    <span class="px-3 py-1 text-sm font-bold rounded-full ${statusColor} text-white flex items-center gap-2 w-fit">
+                        <span class="w-2 h-2 rounded-full bg-white/70 inline-block"></span>
+                        ${p.status}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="p-8">
+                <h2 class="text-4xl font-black text-white mb-6">${p.name}</h2>
+
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-[#0d0d16] rounded-2xl p-4">
+                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">Especie</p>
+                        <p class="text-[#c0fa72] font-bold text-lg">${p.species}</p>
+                    </div>
+                    <div class="bg-[#0d0d16] rounded-2xl p-4">
+                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">Género</p>
+                        <p class="text-[#c0fa72] font-bold text-lg">${p.gender}</p>
+                    </div>
+                    <div class="bg-[#0d0d16] rounded-2xl p-4">
+                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">Origen</p>
+                        <p class="text-white font-semibold">${p.origin.name}</p>
+                    </div>
+                    <div class="bg-[#0d0d16] rounded-2xl p-4">
+                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">Última ubicación</p>
+                        <p class="text-white font-semibold">${p.location.name}</p>
+                    </div>
+                </div>
+
+                <!-- Episodios -->
+                <div class="bg-[#0d0d16] rounded-2xl p-4">
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Apariciones</p>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs text-gray-500">Primer episodio</p>
+                            <p class="text-white font-semibold">${primerEp.episode} — ${primerEp.name}</p>
+                        </div>
+                        <div class="text-center px-4">
+                            <p class="text-3xl font-black text-[#c0fa72]">${epIds.length}</p>
+                            <p class="text-xs text-gray-500">episodios</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-500">Último episodio</p>
+                            <p class="text-white font-semibold">${ultimoEp.episode} — ${ultimoEp.name}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    } catch (e) {
+        modalBody.innerHTML = `<p class="text-red-400 text-center py-10">Error cargando datos del personaje.</p>`;
+    }
+}
+
+function cerrarModal(event) {
+    // Solo cerrar si se hace clic en el fondo oscuro
+    if (event.target === document.getElementById('modal')) {
+        cerrarModalBtn();
+    }
+}
+
+function cerrarModalBtn() {
+    const modal = document.getElementById('modal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+}
+
+// Cerrar con Escape
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') cerrarModalBtn();
+});
+
 // ==================== INICIALIZACIÓN ====================
 // Cuando la página cargue, mostrar algunos personajes por defecto
 window.onload = () => {
@@ -170,3 +282,4 @@ window.onload = () => {
 
     console.log('%c🚀 Rick and Morty Explorer cargado correctamente', 'color: #c0fa72; font-weight: bold');
 };
+
